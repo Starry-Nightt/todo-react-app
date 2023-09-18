@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useState } from "react";
 import { TodoPriority, TodoStatus } from "../../../shared/constants";
 import { Todo } from "../../../shared/interfaces/todo.interface";
 import TodoItem from "./todo-item";
@@ -11,10 +11,6 @@ interface TodoListProps {
   canUpdate: string;
   updatedTodoName: string;
   updatedTodoPriority: TodoPriority;
-  draggingTodo?: Todo;
-  dragoverTodo?: Todo;
-  dragoverList?: TodoStatus;
-  setCanUpdate: any;
   setUpdatedTodoName: any;
   setUpdatedTodoPriority: any;
   onSave: any;
@@ -25,6 +21,7 @@ interface TodoListProps {
   setDraggingTodo: any;
   setDragoverTodo: any;
   setDragoverList: any;
+  handleDragEnd: any
 }
 
 function TodoList({
@@ -33,8 +30,6 @@ function TodoList({
   canUpdate,
   updatedTodoName,
   updatedTodoPriority,
-  dragoverList,
-  setCanUpdate,
   setUpdatedTodoName,
   setUpdatedTodoPriority,
   onSave,
@@ -42,19 +37,16 @@ function TodoList({
   onUpdateTodo,
   onDeleteTodo,
   onUpdateStatus,
-  draggingTodo,
-  dragoverTodo,
   setDraggingTodo,
   setDragoverTodo,
-  setDragoverList
+  setDragoverList,
+  handleDragEnd
 }: TodoListProps) {
   const _todoList = todoList.filter((todo) => todo.status === status);
 
   const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    console.log('over list')
     setDragoverList(status)
   }
-
   return (
     <div className="w-full h-full" onDragOver={onDragOver} >
       <h2 className="text-lg font-semibold text-neutral-600 text-center hidden md:block">
@@ -70,7 +62,6 @@ function TodoList({
               canUpdate={canUpdate}
               updatedTodoName={updatedTodoName}
               updatedTodoPriority={updatedTodoPriority}
-              setCanUpdate={setCanUpdate}
               setUpdatedTodoName={setUpdatedTodoName}
               setUpdatedTodoPriority={setUpdatedTodoPriority}
               onSave={onSave}
@@ -78,12 +69,10 @@ function TodoList({
               onDeleteTodo={onDeleteTodo}
               onUpdateTodo={onUpdateTodo}
               onUpdateStatus={onUpdateStatus}
-              draggingTodo={draggingTodo}
-              dragoverTodo={dragoverTodo}
               setDraggingTodo={setDraggingTodo}
               setDragoverTodo={setDragoverTodo}
-              dragoverList={dragoverList}
               setDragoverList={setDragoverList}
+              handleDragEnd={handleDragEnd}
             />
           ))
         ) : (
@@ -99,4 +88,4 @@ function TodoList({
   );
 }
 
-export default TodoList;
+export default memo(TodoList);

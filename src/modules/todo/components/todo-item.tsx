@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { memo } from "react";
 import { TodoPriority, TodoStatus } from "../../../shared/constants";
 import { Todo } from "../../../shared/interfaces/todo.interface";
 import classNames from "classnames";
-import { getLabelLongName, getPriorityLabel } from "../../../shared/utils";
-import TodoList from "./todo-list";
+import {  getPriorityLabel } from "../../../shared/utils";
+import { BsSendCheck } from "react-icons/bs";
+import { IoReturnDownBackOutline } from "react-icons/io5";
+import { AiOutlineCheck } from "react-icons/ai";
 
 interface TodoItemProps {
   status: TodoStatus;
@@ -11,10 +13,6 @@ interface TodoItemProps {
   canUpdate: string;
   updatedTodoName: string;
   updatedTodoPriority: TodoPriority;
-  draggingTodo?: Todo
-  dragoverTodo?: Todo
-  dragoverList?: TodoStatus
-  setCanUpdate: any;
   setUpdatedTodoName: any;
   setUpdatedTodoPriority: any;
   onSave: any;
@@ -22,9 +20,10 @@ interface TodoItemProps {
   onUpdateTodo: any;
   onDeleteTodo: any;
   onUpdateStatus: any;
-  setDragoverTodo: any
-  setDraggingTodo: any
-  setDragoverList: any
+  setDragoverTodo: any;
+  setDraggingTodo: any;
+  setDragoverList: any;
+  handleDragEnd: any;
 }
 
 function TodoItem({
@@ -40,13 +39,10 @@ function TodoItem({
   onUpdateTodo,
   onDeleteTodo,
   onUpdateStatus,
-  draggingTodo,
-  dragoverTodo,
   setDraggingTodo,
   setDragoverTodo,
-  dragoverList,
-  setDragoverList
-  
+  setDragoverList,
+  handleDragEnd,
 }: TodoItemProps) {
   const getPriorityClassName = (priority: TodoPriority) => {
     if (priority === TodoPriority.LOW) return "badge-primary";
@@ -55,21 +51,23 @@ function TodoItem({
     return "";
   };
 
-
   const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    e.stopPropagation()
-    setDraggingTodo(todo)
-  }
+    e.stopPropagation();
+    setDraggingTodo(todo);
+  };
 
   const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
-    setDraggingTodo(null)
-    setDragoverTodo(null)
-  }
+    handleDragEnd();
+    setDraggingTodo(null);
+    setDragoverTodo(null);
+    setDragoverList(null)
+  };
 
   const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.stopPropagation()
-    setDragoverTodo(todo)
-  }
+    e.stopPropagation();
+    setDragoverTodo(todo);
+  };
+
 
   return (
     <>
@@ -94,8 +92,35 @@ function TodoItem({
               >
                 {getPriorityLabel(todo.priority)}
               </span>
-              <p className="line-clamp">{todo.name}</p>
+              <div className="flex">
+                <p className="line-clamp">{todo.name}</p>
+                {status === TodoStatus.NEW ? (
+                  <button
+                    className="btn btn-success btn-square btn-outline md:hidden"
+                    onClick={() =>
+                      onUpdateStatus(todo.id, TodoStatus.IN_PROGRESS)
+                    }
+                  >
+                    <BsSendCheck />
+                  </button>
+                ) : status === TodoStatus.IN_PROGRESS ? (
+                  <button
+                    className="btn btn-success btn-square btn-outline md:hidden"
+                    onClick={() =>
+                      onUpdateStatus(todo.id, TodoStatus.COMPLETED)
+                    }
+                  >
+                    <AiOutlineCheck />
+                  </button>
+                ) : null}
+              </div>
               <div className="card-actions justify-end mt-2">
+                {status === TodoStatus.IN_PROGRESS && <button
+                  className="btn btn-warning btn-square btn-outline mr-auto md:hidden"
+                  onClick={() => onUpdateStatus(todo.id, TodoStatus.NEW)}
+                >
+                  <IoReturnDownBackOutline />
+                </button>}
                 <button
                   className="btn btn-warning"
                   onClick={() => onUpdateTodo(todo)}
@@ -108,27 +133,12 @@ function TodoItem({
                 >
                   Delete
                 </button>
-                {status !== TodoStatus.COMPLETED && (
-                  <button
-                    className="btn btn-success"
-                    onClick={() =>
-                      onUpdateStatus(
-                        todo.id,
-                        status === TodoStatus.NEW
-                          ? TodoStatus.IN_PROGRESS
-                          : TodoStatus.COMPLETED
-                      )
-                    }
-                  >
-                    Next
-                  </button>
-                )}
               </div>
             </>
           ) : (
             <>
               <select
-                className="select select-accent w-fit"
+                className="select select-accent w-fit select-sm"
                 value={updatedTodoPriority}
                 onChange={(e) => setUpdatedTodoPriority(Number(e.target.value))}
               >
@@ -163,4 +173,4 @@ function TodoItem({
   );
 }
 
-export default TodoItem;
+export default memo(TodoItem);

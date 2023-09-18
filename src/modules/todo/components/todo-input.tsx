@@ -1,4 +1,4 @@
-import React, { LegacyRef, MutableRefObject, useRef } from "react";
+import React, { LegacyRef, MutableRefObject, memo, useRef } from "react";
 import { TodoPriority } from "../../../shared/constants";
 
 interface TodoInputProps {
@@ -80,4 +80,4 @@ function TodoInput({
   );
 }
 
-export default TodoInput;
+export default memo(TodoInput);

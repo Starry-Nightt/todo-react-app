@@ -31,7 +31,8 @@ function TodoApp() {
     dragoverTodo,
     setDragoverTodo,
     dragoverList,
-    setDragoverList
+    setDragoverList,
+    handleDragEnd,
   } = useTodo();
 
   const [canUpdate, setCanUpdate] = useState<string>("");
@@ -69,6 +70,7 @@ function TodoApp() {
     });
     setTodoList(_todoList);
   };
+
 
   return (
     <div className="flex flex-col justify-center items-center p-4 pt-10 w-full">
@@ -118,7 +120,6 @@ function TodoApp() {
           canUpdate={canUpdate}
           updatedTodoName={updatedTodoName}
           updatedTodoPriority={updatedTodoPriority}
-          setCanUpdate={setCanUpdate}
           setUpdatedTodoName={setUpdatedTodoName}
           setUpdatedTodoPriority={setUpdatedTodoPriority}
           onSave={handleSave}
@@ -126,12 +127,10 @@ function TodoApp() {
           onDeleteTodo={deleteTodo}
           onUpdateTodo={handleUpdateTodo}
           onUpdateStatus={handleUpdateStatus}
-          draggingTodo={draggingTodo}
-          dragoverTodo={dragoverTodo}
           setDraggingTodo={setDraggingTodo}
           setDragoverTodo={setDragoverTodo}
-          dragoverList={dragoverList}
           setDragoverList={setDragoverList}
+          handleDragEnd={handleDragEnd}
         />
       </div>
 
@@ -143,7 +142,6 @@ function TodoApp() {
             canUpdate={canUpdate}
             updatedTodoName={updatedTodoName}
             updatedTodoPriority={updatedTodoPriority}
-            setCanUpdate={setCanUpdate}
             setUpdatedTodoName={setUpdatedTodoName}
             setUpdatedTodoPriority={setUpdatedTodoPriority}
             onSave={handleSave}
@@ -151,12 +149,10 @@ function TodoApp() {
             onDeleteTodo={deleteTodo}
             onUpdateTodo={handleUpdateTodo}
             onUpdateStatus={handleUpdateStatus}
-            draggingTodo={draggingTodo}
-            dragoverTodo={dragoverTodo}
             setDraggingTodo={setDraggingTodo}
             setDragoverTodo={setDragoverTodo}
-            dragoverList={dragoverList}
             setDragoverList={setDragoverList}
+            handleDragEnd={handleDragEnd}
           />
         </div>
         <div className="w-1/3 ">
@@ -166,7 +162,6 @@ function TodoApp() {
             canUpdate={canUpdate}
             updatedTodoName={updatedTodoName}
             updatedTodoPriority={updatedTodoPriority}
-            setCanUpdate={setCanUpdate}
             setUpdatedTodoName={setUpdatedTodoName}
             setUpdatedTodoPriority={setUpdatedTodoPriority}
             onSave={handleSave}
@@ -174,12 +169,10 @@ function TodoApp() {
             onDeleteTodo={deleteTodo}
             onUpdateTodo={handleUpdateTodo}
             onUpdateStatus={handleUpdateStatus}
-            draggingTodo={draggingTodo}
-            dragoverTodo={dragoverTodo}
             setDraggingTodo={setDraggingTodo}
             setDragoverTodo={setDragoverTodo}
-            dragoverList={dragoverList}
             setDragoverList={setDragoverList}
+            handleDragEnd={handleDragEnd}
           />
         </div>
         <div className="w-1/3 ">
@@ -189,7 +182,6 @@ function TodoApp() {
             canUpdate={canUpdate}
             updatedTodoName={updatedTodoName}
             updatedTodoPriority={updatedTodoPriority}
-            setCanUpdate={setCanUpdate}
             setUpdatedTodoName={setUpdatedTodoName}
             setUpdatedTodoPriority={setUpdatedTodoPriority}
             onSave={handleSave}
@@ -197,12 +189,10 @@ function TodoApp() {
             onDeleteTodo={deleteTodo}
             onUpdateTodo={handleUpdateTodo}
             onUpdateStatus={handleUpdateStatus}
-            draggingTodo={draggingTodo}
-            dragoverTodo={dragoverTodo}
             setDraggingTodo={setDraggingTodo}
             setDragoverTodo={setDragoverTodo}
-            dragoverList={dragoverList}
             setDragoverList={setDragoverList}
+            handleDragEnd={handleDragEnd}
           />
         </div>
       </div>
