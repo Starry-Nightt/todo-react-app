@@ -3,6 +3,7 @@ import { TodoPriority, TodoStatus } from "../../../shared/constants";
 import { Todo } from "../../../shared/interfaces/todo.interface";
 import TodoItem from "./todo-item";
 import { getStatusLabel } from "../../../shared/utils";
+import { TbMoodEmpty } from "react-icons/tb";
 
 interface TodoListProps {
   status: TodoStatus;
@@ -10,6 +11,9 @@ interface TodoListProps {
   canUpdate: string;
   updatedTodoName: string;
   updatedTodoPriority: TodoPriority;
+  draggingTodo?: Todo;
+  dragoverTodo?: Todo;
+  dragoverList?: TodoStatus;
   setCanUpdate: any;
   setUpdatedTodoName: any;
   setUpdatedTodoPriority: any;
@@ -17,6 +21,10 @@ interface TodoListProps {
   onCancelUpdateTodo: any;
   onUpdateTodo: any;
   onDeleteTodo: any;
+  onUpdateStatus: any;
+  setDraggingTodo: any;
+  setDragoverTodo: any;
+  setDragoverList: any;
 }
 
 function TodoList({
@@ -25,6 +33,7 @@ function TodoList({
   canUpdate,
   updatedTodoName,
   updatedTodoPriority,
+  dragoverList,
   setCanUpdate,
   setUpdatedTodoName,
   setUpdatedTodoPriority,
@@ -32,14 +41,30 @@ function TodoList({
   onCancelUpdateTodo,
   onUpdateTodo,
   onDeleteTodo,
+  onUpdateStatus,
+  draggingTodo,
+  dragoverTodo,
+  setDraggingTodo,
+  setDragoverTodo,
+  setDragoverList
 }: TodoListProps) {
+  const _todoList = todoList.filter((todo) => todo.status === status);
+
+  const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    console.log('over list')
+    setDragoverList(status)
+  }
+
   return (
-      <ul className="w-1/3 max-w-xs">
-        <h2 className="text-lg font-semibold text-neutral-600 text-center">{getStatusLabel(status)} ({todoList.length})</h2>
-        <div className="divider"></div>
-        {!!todoList.length &&
-          todoList.map((todo) => (
+    <div className="w-full h-full" onDragOver={onDragOver} >
+      <h2 className="text-lg font-semibold text-neutral-600 text-center hidden md:block">
+        {getStatusLabel(status)} ({todoList.length})
+      </h2>
+      <div className="divider hidden md:flex"></div>
+        {!!_todoList.length ? (
+          _todoList.map((todo) => (
             <TodoItem
+              status={status}
               key={todo.id}
               todo={todo}
               canUpdate={canUpdate}
@@ -52,9 +77,25 @@ function TodoList({
               onCancelUpdateTodo={onCancelUpdateTodo}
               onDeleteTodo={onDeleteTodo}
               onUpdateTodo={onUpdateTodo}
+              onUpdateStatus={onUpdateStatus}
+              draggingTodo={draggingTodo}
+              dragoverTodo={dragoverTodo}
+              setDraggingTodo={setDraggingTodo}
+              setDragoverTodo={setDragoverTodo}
+              dragoverList={dragoverList}
+              setDragoverList={setDragoverList}
             />
-          ))}
-      </ul>
+          ))
+        ) : (
+          <div className="card md:hidden">
+            <div className="card-body">
+              <p className="card-title">
+                Empty <TbMoodEmpty size={40}></TbMoodEmpty>
+              </p>
+            </div>
+          </div>
+        )}
+    </div>
   );
 }
 

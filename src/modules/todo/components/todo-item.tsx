@@ -1,14 +1,19 @@
-import React from "react";
-import { TodoPriority } from "../../../shared/constants";
+import React, { useState } from "react";
+import { TodoPriority, TodoStatus } from "../../../shared/constants";
 import { Todo } from "../../../shared/interfaces/todo.interface";
 import classNames from "classnames";
 import { getLabelLongName, getPriorityLabel } from "../../../shared/utils";
+import TodoList from "./todo-list";
 
 interface TodoItemProps {
+  status: TodoStatus;
   todo: Todo;
   canUpdate: string;
   updatedTodoName: string;
   updatedTodoPriority: TodoPriority;
+  draggingTodo?: Todo
+  dragoverTodo?: Todo
+  dragoverList?: TodoStatus
   setCanUpdate: any;
   setUpdatedTodoName: any;
   setUpdatedTodoPriority: any;
@@ -16,9 +21,14 @@ interface TodoItemProps {
   onCancelUpdateTodo: any;
   onUpdateTodo: any;
   onDeleteTodo: any;
+  onUpdateStatus: any;
+  setDragoverTodo: any
+  setDraggingTodo: any
+  setDragoverList: any
 }
 
 function TodoItem({
+  status,
   todo,
   canUpdate,
   updatedTodoName,
@@ -29,6 +39,14 @@ function TodoItem({
   onCancelUpdateTodo,
   onUpdateTodo,
   onDeleteTodo,
+  onUpdateStatus,
+  draggingTodo,
+  dragoverTodo,
+  setDraggingTodo,
+  setDragoverTodo,
+  dragoverList,
+  setDragoverList
+  
 }: TodoItemProps) {
   const getPriorityClassName = (priority: TodoPriority) => {
     if (priority === TodoPriority.LOW) return "badge-primary";
@@ -37,9 +55,31 @@ function TodoItem({
     return "";
   };
 
+
+  const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.stopPropagation()
+    setDraggingTodo(todo)
+  }
+
+  const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    setDraggingTodo(null)
+    setDragoverTodo(null)
+  }
+
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.stopPropagation()
+    setDragoverTodo(todo)
+  }
+
   return (
     <>
-      <div className="card card-padding bg-base-100 shadow-xl mb-3 overflow-hidden cursor-grab active:cursor-grabbing" draggable>
+      <div
+        className="card card-padding bg-base-100 shadow-xl mb-3 overflow-hidden md:cursor-grab md:active:cursor-grabbing"
+        draggable
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        onDragEnter={onDragOver}
+      >
         <div className="bg-neutral-300 top-0 left-0 bottom-0 w-2 absolute"></div>
         <div className="card-body">
           {canUpdate !== todo.id ? (
@@ -68,6 +108,21 @@ function TodoItem({
                 >
                   Delete
                 </button>
+                {status !== TodoStatus.COMPLETED && (
+                  <button
+                    className="btn btn-success"
+                    onClick={() =>
+                      onUpdateStatus(
+                        todo.id,
+                        status === TodoStatus.NEW
+                          ? TodoStatus.IN_PROGRESS
+                          : TodoStatus.COMPLETED
+                      )
+                    }
+                  >
+                    Next
+                  </button>
+                )}
               </div>
             </>
           ) : (
@@ -104,7 +159,6 @@ function TodoItem({
           )}
         </div>
       </div>
-
     </>
   );
 }

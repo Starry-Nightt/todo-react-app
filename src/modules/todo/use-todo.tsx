@@ -20,6 +20,10 @@ const useTodo = () => {
   );
   const [updatedTodoName, setUpdatedTodoName] = useState<string>("");
   const [updatedTodoPriority, setUpdatedTodoPriority] = useState<TodoPriority>(TodoPriority.LOW);
+  const [tab, setTab] = useState<TodoStatus>(TodoStatus.NEW)
+  const [draggingTodo, setDraggingTodo] = useState<Todo>();
+  const [dragoverTodo, setDragoverTodo] = useState<Todo>()
+  const [dragoverList, setDragoverList] = useState<TodoStatus>()
 
   const todoCollectionRef = useMemo(() => {
     return collection(db, "todos");
@@ -77,7 +81,15 @@ const useTodo = () => {
     setUpdatedTodoName,
     updateTodo,
     updatedTodoPriority,
-    setUpdatedTodoPriority
+    setUpdatedTodoPriority,
+    tab, 
+    setTab,
+    draggingTodo,
+    setDraggingTodo,
+    dragoverTodo,
+    setDragoverTodo,
+    dragoverList,
+    setDragoverList
   };
 };
 
