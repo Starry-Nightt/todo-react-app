@@ -6,15 +6,12 @@ import { Theme } from "./shared/constants";
 import Loading from "./shared/components/loading";
 
 function App() {
-  const { theme} = useContext(ThemeContext);
-
-  const isDarkTheme = theme !== Theme.DARK ? true : false;
+  const { theme, isDarkTheme} = useContext(ThemeContext);
 
   return (
     <div
       className={classnames("min-h-screen bg-primary", {
-        "dark-theme": isDarkTheme,
-        "light-theme": !isDarkTheme,
+        "bg-slate-800 ": isDarkTheme,
       })}
     >
       <TodoApp />

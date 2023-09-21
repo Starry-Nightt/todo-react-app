@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 import { TodoPriority, TodoStatus } from "../../../shared/constants";
 import { Todo } from "../../../shared/interfaces/todo.interface";
 import classNames from "classnames";
@@ -6,6 +6,7 @@ import {  getPriorityLabel } from "../../../shared/utils";
 import { BsSendCheck } from "react-icons/bs";
 import { IoReturnDownBackOutline } from "react-icons/io5";
 import { AiOutlineCheck } from "react-icons/ai";
+import { ThemeContext } from "../../../shared/providers/theme-provider";
 
 interface TodoItemProps {
   status: TodoStatus;
@@ -44,6 +45,8 @@ function TodoItem({
   setDragoverList,
   handleDragEnd,
 }: TodoItemProps) {
+  const {isDarkTheme} = useContext(ThemeContext)
+
   const getPriorityClassName = (priority: TodoPriority) => {
     if (priority === TodoPriority.LOW) return "badge-primary";
     else if (priority === TodoPriority.NORMAL) return "badge-secondary";
@@ -72,14 +75,20 @@ function TodoItem({
   return (
     <>
       <div
-        className="card card-padding bg-base-100 shadow-xl mb-3 overflow-hidden md:cursor-grab md:active:cursor-grabbing"
+        className={classNames("card card-padding bg-base-100 shadow-xl mb-3 overflow-hidden md:cursor-grab md:active:cursor-grabbing", {
+          'bg-slate-600': isDarkTheme
+        })}
         draggable
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragEnter={onDragOver}
       >
-        <div className="bg-neutral-300 top-0 left-0 bottom-0 w-2 absolute"></div>
-        <div className="card-body">
+        <div className={classNames("bg-neutral-300 top-0 left-0 bottom-0 w-2 absolute", {
+          'bg-slate-600': isDarkTheme
+        })}></div>
+        <div className={classNames("card-body", {
+          'bg-slate-800 text-white': isDarkTheme
+        })}>
           {canUpdate !== todo.id ? (
             <>
               <span

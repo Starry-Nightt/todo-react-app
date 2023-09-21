@@ -1,9 +1,11 @@
-import React, { memo, useState } from "react";
+import React, { memo, useContext, useState } from "react";
 import { TodoPriority, TodoStatus } from "../../../shared/constants";
 import { Todo } from "../../../shared/interfaces/todo.interface";
 import TodoItem from "./todo-item";
 import { getStatusLabel } from "../../../shared/utils";
 import { TbMoodEmpty } from "react-icons/tb";
+import classNames from "classnames";
+import { ThemeContext } from "../../../shared/providers/theme-provider";
 
 interface TodoListProps {
   status: TodoStatus;
@@ -43,13 +45,15 @@ function TodoList({
   handleDragEnd
 }: TodoListProps) {
   const _todoList = todoList.filter((todo) => todo.status === status);
-
+  const {isDarkTheme} = useContext(ThemeContext)
   const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     setDragoverList(status)
   }
   return (
     <div className="w-full h-full" onDragOver={onDragOver} >
-      <h2 className="text-lg font-semibold text-neutral-600 text-center hidden md:block">
+      <h2 className={classNames("text-lg font-semibold text-neutral-600 text-center hidden md:block", {
+        'text-gray-200': isDarkTheme
+      })}>
         {getStatusLabel(status)} ({todoList.length})
       </h2>
       <div className="divider hidden md:flex"></div>
@@ -77,7 +81,9 @@ function TodoList({
           ))
         ) : (
           <div className="card md:hidden">
-            <div className="card-body">
+            <div className={classNames("card-body", {
+              'text-white': isDarkTheme
+            })}>
               <p className="card-title">
                 Empty <TbMoodEmpty size={40}></TbMoodEmpty>
               </p>

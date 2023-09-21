@@ -1,5 +1,5 @@
 import useTodo from "./use-todo";
-import { useState, useContext } from "react";
+import { useState, useContext, useMemo, useCallback } from "react";
 import { Todo } from "../../shared/interfaces/todo.interface";
 import TodoInput from "./components/todo-input";
 import TodoList from "./components/todo-list";
@@ -26,41 +26,38 @@ function TodoApp() {
     setUpdatedTodoPriority,
     tab,
     setTab,
-    draggingTodo,
     setDraggingTodo,
-    dragoverTodo,
     setDragoverTodo,
-    dragoverList,
     setDragoverList,
     handleDragEnd,
   } = useTodo();
 
   const [canUpdate, setCanUpdate] = useState<string>("");
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme, isDarkTheme } = useContext(ThemeContext);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     if (theme === Theme.DARK) setTheme(Theme.LIGHT);
     else setTheme(Theme.DARK);
-  };
+  }, [theme]);
 
-  const handleUpdateTodo = (todo: Todo) => {
+  const handleUpdateTodo = useCallback((todo: Todo) => {
     setUpdatedTodoName(todo.name);
     setCanUpdate(todo.id);
-  };
+  }, []);
 
-  const handleCancelUpdateTodo = () => {
+  const handleCancelUpdateTodo = useCallback(() => {
     setCanUpdate("");
-  };
+  }, [])
 
-  const handleSave = async (id: string) => {
+  const handleSave = useCallback(async (id: string) => {
     await updateTodo(id, {
       name: updatedTodoName,
       priority: updatedTodoPriority,
     });
     setCanUpdate("");
-  };
+  }, [updatedTodoName, updatedTodoPriority]);
 
-  const handleUpdateStatus = async (id: string, status: TodoStatus) => {
+  const handleUpdateStatus = useCallback(async (id: string, status: TodoStatus) => {
     await updateTodo(id, {
       status,
     });
@@ -69,13 +66,17 @@ function TodoApp() {
       return todo;
     });
     setTodoList(_todoList);
-  };
+  }, []);
+
+  const isActiveTab = useCallback((currentTab: TodoStatus) => {
+      return currentTab === tab
+  }, [tab])
 
 
   return (
     <div className="flex flex-col justify-center items-center p-4 pt-10 w-full">
       <div className="flex items-center mb-10 justify-between w-full max-w-2xl md:mb-20">
-        <h2 className="text-3xl uppercase font-semibold text-white tracking-widest font-sans text-center md:text-5xl">
+        <h2 className="text-3xl uppercase font-semibold text-white tracking-widest font-sans text-center md:text-5xl select-none">
           Todo Task
         </h2>
         <ThemeToggle value={theme} onClick={toggleTheme} size={40} />
@@ -87,11 +88,14 @@ function TodoApp() {
         setTodoPriority={setTodoPriority}
         createTodo={createTodo}
       />
-      <div className="bg-neutral-100 rounded-lg p-5 md:hidden w-full">
+      <div className={classNames("bg-neutral-100 rounded-lg p-5 md:hidden w-full", {
+        'bg-slate-700': isDarkTheme
+      })}>
         <div className="tabs w-full mb-3">
           <button
             className={classNames("tab tab-md tab-lifted", {
-              ["tab-active"]: tab === TodoStatus.NEW,
+              ["tab-active"]: isActiveTab(TodoStatus.NEW),
+              'text-white': isDarkTheme && !isActiveTab(TodoStatus.NEW)
             })}
             onClick={() => setTab(TodoStatus.NEW)}
           >
@@ -99,7 +103,8 @@ function TodoApp() {
           </button>
           <button
             className={classNames("tab tab-md tab-lifted", {
-              ["tab-active"]: tab === TodoStatus.IN_PROGRESS,
+              ["tab-active"]: isActiveTab(TodoStatus.IN_PROGRESS),
+              'text-white': isDarkTheme &&!isActiveTab(TodoStatus.IN_PROGRESS)
             })}
             onClick={() => setTab(TodoStatus.IN_PROGRESS)}
           >
@@ -107,7 +112,8 @@ function TodoApp() {
           </button>
           <button
             className={classNames("tab tab-md tab-lifted", {
-              ["tab-active"]: tab === TodoStatus.COMPLETED,
+              ["tab-active"]: isActiveTab(TodoStatus.COMPLETED),
+              'text-white': isDarkTheme && !isActiveTab(TodoStatus.COMPLETED)
             })}
             onClick={() => setTab(TodoStatus.COMPLETED)}
           >
@@ -134,7 +140,9 @@ function TodoApp() {
         />
       </div>
 
-      <div className="bg-neutral-100 rounded-lg p-5 hidden md:flex w-full max-w-6xl gap-5">
+      <div className={classNames("bg-neutral-100 rounded-lg p-5 hidden md:flex w-full max-w-6xl gap-5", {
+        'bg-slate-700': isDarkTheme
+      })}>
         <div className="w-1/3 ">
           <TodoList
             status={TodoStatus.NEW}
