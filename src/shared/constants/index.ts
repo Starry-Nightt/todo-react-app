@@ -14,3 +14,7 @@ export enum TodoPriority {
   NORMAL,
   HIGH,
 }
+
+export enum LocalStorageKey {
+  THEME = "theme",
+}

@@ -1,36 +1,44 @@
-import React, { ReactNode, createContext, useMemo, useState } from 'react'
-import { Theme } from '../constants'
+import React, { ReactNode, createContext, useMemo, useState } from "react";
+import { LocalStorageKey, Theme } from "../constants";
+import { getKey } from "../utils";
 
 interface ThemeProviderProps {
-    children: ReactNode
+  children: ReactNode;
 }
 
 export interface ThemeContent {
-    theme: Theme
-    setTheme: any
-    isDarkTheme: boolean
+  theme: Theme;
+  setTheme: any;
+  isDarkTheme: boolean;
 }
 
 export const ThemeContext = createContext<ThemeContent>({
-    theme: Theme.LIGHT,
-    setTheme: () => {},
-    isDarkTheme: false
-})
+  theme: Theme.LIGHT,
+  setTheme: () => {},
+  isDarkTheme: false,
+});
 
-function ThemeProvider({children}: ThemeProviderProps) {
-    const [theme, setTheme] = useState<Theme>(Theme.LIGHT)
+function ThemeProvider({ children }: ThemeProviderProps) {
+  const [theme, setTheme] = useState<Theme>(
+    getKey(LocalStorageKey.THEME) || Theme.LIGHT
+  );
 
-    const isDarkTheme = theme === Theme.DARK ? true :false
+  const isDarkTheme = theme === Theme.DARK ? true : false;
 
-    const contextValue = useMemo(() =>({
-        theme, setTheme, isDarkTheme
-    }), [theme, setTheme, isDarkTheme])
+  const contextValue = useMemo(
+    () => ({
+      theme,
+      setTheme,
+      isDarkTheme,
+    }),
+    [theme, setTheme, isDarkTheme]
+  );
 
   return (
     <ThemeContext.Provider value={contextValue}>
-        {children}
+      {children}
     </ThemeContext.Provider>
-  )
+  );
 }
 
-export default ThemeProvider
+export default ThemeProvider;

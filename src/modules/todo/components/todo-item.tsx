@@ -2,7 +2,7 @@ import React, { memo, useContext } from "react";
 import { TodoPriority, TodoStatus } from "../../../shared/constants";
 import { Todo } from "../../../shared/interfaces/todo.interface";
 import classNames from "classnames";
-import {  getPriorityLabel } from "../../../shared/utils";
+import { getPriorityLabel } from "../../../shared/utils";
 import { BsSendCheck } from "react-icons/bs";
 import { IoReturnDownBackOutline } from "react-icons/io5";
 import { AiOutlineCheck } from "react-icons/ai";
@@ -45,7 +45,7 @@ function TodoItem({
   setDragoverList,
   handleDragEnd,
 }: TodoItemProps) {
-  const {isDarkTheme} = useContext(ThemeContext)
+  const { isDarkTheme } = useContext(ThemeContext);
 
   const getPriorityClassName = (priority: TodoPriority) => {
     if (priority === TodoPriority.LOW) return "badge-primary";
@@ -63,7 +63,7 @@ function TodoItem({
     handleDragEnd();
     setDraggingTodo(null);
     setDragoverTodo(null);
-    setDragoverList(null)
+    setDragoverList(null);
   };
 
   const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -71,26 +71,35 @@ function TodoItem({
     setDragoverTodo(todo);
   };
 
-
   return (
     <>
       <div
-        className={classNames("card card-padding bg-base-100 shadow-xl mb-3 overflow-hidden md:cursor-grab md:active:cursor-grabbing", {
-          'bg-slate-600': isDarkTheme
-        })}
+        className={classNames(
+          "card card-padding bg-base-100 shadow-xl mb-3 overflow-hidden md:cursor-grab md:active:cursor-grabbing",
+          {
+            "bg-slate-600": isDarkTheme,
+          }
+        )}
         draggable
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragEnter={onDragOver}
       >
-        <div className={classNames("bg-neutral-300 top-0 left-0 bottom-0 w-2 absolute", {
-          'bg-slate-600': isDarkTheme
-        })}></div>
-        <div className={classNames("card-body", {
-          'bg-slate-800 text-white': isDarkTheme
-        })}>
+        <div
+          className={classNames(
+            "bg-neutral-300 top-0 left-0 bottom-0 w-2 absolute",
+            {
+              "bg-blue-300": isDarkTheme,
+            }
+          )}
+        ></div>
+        <div
+          className={classNames("card-body", {
+            "bg-slate-600": isDarkTheme,
+          })}
+        >
           {canUpdate !== todo.id ? (
-            <>
+            <div className={classNames({ "text-white": isDarkTheme })}>
               <span
                 className={classNames(
                   "uppercase text-xs badge -translate-x-1 font-medium",
@@ -124,12 +133,14 @@ function TodoItem({
                 ) : null}
               </div>
               <div className="card-actions justify-end mt-2">
-                {status === TodoStatus.IN_PROGRESS && <button
-                  className="btn btn-warning btn-square btn-outline mr-auto md:hidden"
-                  onClick={() => onUpdateStatus(todo.id, TodoStatus.NEW)}
-                >
-                  <IoReturnDownBackOutline />
-                </button>}
+                {status === TodoStatus.IN_PROGRESS && (
+                  <button
+                    className="btn btn-warning btn-square btn-outline mr-auto md:hidden"
+                    onClick={() => onUpdateStatus(todo.id, TodoStatus.NEW)}
+                  >
+                    <IoReturnDownBackOutline />
+                  </button>
+                )}
                 <button
                   className="btn btn-warning"
                   onClick={() => onUpdateTodo(todo)}
@@ -143,7 +154,7 @@ function TodoItem({
                   Delete
                 </button>
               </div>
-            </>
+            </div>
           ) : (
             <>
               <select

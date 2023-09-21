@@ -24,3 +24,14 @@ export const getLabelLongName = (label: string) => {
   if (label.length <= 25) return label;
   return label.slice(0, 25) + "...";
 };
+
+export const getKey = (key: string) => {
+  const val = localStorage.getItem(key);
+  if (val) {
+    return JSON.parse(val);
+  } else return null;
+};
+
+export const setKey = (key: string, val: any) => {
+  if (val) localStorage.setItem(key, JSON.stringify(val));
+};

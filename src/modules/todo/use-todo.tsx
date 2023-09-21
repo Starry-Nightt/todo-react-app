@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { Todo, TodoPayload } from "../../shared/interfaces/todo.interface";
 import { db } from "../../configs/firebase";
 import {
@@ -29,10 +29,6 @@ const useTodo = () => {
 
   const todoCollectionRef = useMemo(() => {
     return collection(db, "todos");
-  }, [db]);
-
-  useEffect(() => {
-    getTodoList();
   }, []);
 
   const getTodoList = useCallback(async () => {
@@ -40,8 +36,11 @@ const useTodo = () => {
       const response = await getDocs(todoCollectionRef);
       const data = parseResponse(response);
       setTodoList(data);
-    } catch (err) {
-    }
+    } catch (err) {}
+  }, [todoCollectionRef]);
+
+  useEffect(() => {
+    getTodoList();
   }, []);
 
   const createTodo = useCallback(async () => {
@@ -52,7 +51,7 @@ const useTodo = () => {
     };
     const response = await addDoc(todoCollectionRef, newTodo);
     setTodoList((prev) => [{ ...newTodo, id: response.id }, ...prev]);
-  }, [todoName, todoPriority]);
+  }, [todoCollectionRef, todoName, todoPriority]);
 
   const deleteTodo = useCallback(async (id: string) => {
     const todoDoc = doc(db, "todos", id);
@@ -87,7 +86,7 @@ const useTodo = () => {
       newTodoList.splice(idx, 0, newTodo);
       setTodoList((prev) => newTodoList);
     }
-  }, [draggingTodo, dragoverTodo, dragoverList]);
+  }, [draggingTodo, dragoverTodo, dragoverList, todoList]);
 
   return {
     todoList,

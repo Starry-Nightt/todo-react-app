@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState } from "react";
+import React, { memo, useContext } from "react";
 import { TodoPriority, TodoStatus } from "../../../shared/constants";
 import { Todo } from "../../../shared/interfaces/todo.interface";
 import TodoItem from "./todo-item";
@@ -23,7 +23,7 @@ interface TodoListProps {
   setDraggingTodo: any;
   setDragoverTodo: any;
   setDragoverList: any;
-  handleDragEnd: any
+  handleDragEnd: any;
 }
 
 function TodoList({
@@ -42,54 +42,62 @@ function TodoList({
   setDraggingTodo,
   setDragoverTodo,
   setDragoverList,
-  handleDragEnd
+  handleDragEnd,
 }: TodoListProps) {
   const _todoList = todoList.filter((todo) => todo.status === status);
-  const {isDarkTheme} = useContext(ThemeContext)
+  const { isDarkTheme } = useContext(ThemeContext);
   const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    setDragoverList(status)
-  }
+    setDragoverList(status);
+  };
   return (
-    <div className="w-full h-full" onDragOver={onDragOver} >
-      <h2 className={classNames("text-lg font-semibold text-neutral-600 text-center hidden md:block", {
-        'text-gray-200': isDarkTheme
-      })}>
-        {getStatusLabel(status)} ({todoList.length})
+    <div className="w-full h-full" onDragOver={onDragOver}>
+      <h2
+        className={classNames(
+          "text-lg font-semibold text-neutral-600 text-center hidden md:block",
+          {
+            "text-gray-300": isDarkTheme,
+          }
+        )}
+      >
+        {getStatusLabel(status)}{" "}
+        {_todoList.length ? `(${_todoList.length})` : null}
       </h2>
       <div className="divider hidden md:flex"></div>
-        {!!_todoList.length ? (
-          _todoList.map((todo) => (
-            <TodoItem
-              status={status}
-              key={todo.id}
-              todo={todo}
-              canUpdate={canUpdate}
-              updatedTodoName={updatedTodoName}
-              updatedTodoPriority={updatedTodoPriority}
-              setUpdatedTodoName={setUpdatedTodoName}
-              setUpdatedTodoPriority={setUpdatedTodoPriority}
-              onSave={onSave}
-              onCancelUpdateTodo={onCancelUpdateTodo}
-              onDeleteTodo={onDeleteTodo}
-              onUpdateTodo={onUpdateTodo}
-              onUpdateStatus={onUpdateStatus}
-              setDraggingTodo={setDraggingTodo}
-              setDragoverTodo={setDragoverTodo}
-              setDragoverList={setDragoverList}
-              handleDragEnd={handleDragEnd}
-            />
-          ))
-        ) : (
-          <div className="card md:hidden">
-            <div className={classNames("card-body", {
-              'text-white': isDarkTheme
-            })}>
-              <p className="card-title">
-                Empty <TbMoodEmpty size={40}></TbMoodEmpty>
-              </p>
-            </div>
+      {!!_todoList.length ? (
+        _todoList.map((todo) => (
+          <TodoItem
+            status={status}
+            key={todo.id}
+            todo={todo}
+            canUpdate={canUpdate}
+            updatedTodoName={updatedTodoName}
+            updatedTodoPriority={updatedTodoPriority}
+            setUpdatedTodoName={setUpdatedTodoName}
+            setUpdatedTodoPriority={setUpdatedTodoPriority}
+            onSave={onSave}
+            onCancelUpdateTodo={onCancelUpdateTodo}
+            onDeleteTodo={onDeleteTodo}
+            onUpdateTodo={onUpdateTodo}
+            onUpdateStatus={onUpdateStatus}
+            setDraggingTodo={setDraggingTodo}
+            setDragoverTodo={setDragoverTodo}
+            setDragoverList={setDragoverList}
+            handleDragEnd={handleDragEnd}
+          />
+        ))
+      ) : (
+        <div className="card md:hidden">
+          <div
+            className={classNames("card-body", {
+              "text-white": isDarkTheme,
+            })}
+          >
+            <p className="card-title">
+              Empty <TbMoodEmpty size={40}></TbMoodEmpty>
+            </p>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }
