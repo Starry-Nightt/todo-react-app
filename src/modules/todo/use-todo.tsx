@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useContext } from "react";
 import { Todo, TodoPayload } from "../../shared/interfaces/todo.interface";
 import { db } from "../../configs/firebase";
 import {
@@ -8,9 +8,12 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { parseResponse } from "../../shared/utils";
 import { TodoPriority, TodoStatus } from "../../shared/constants";
+import { AuthContext } from "../../shared/providers/auth-provider";
 
 const useTodo = () => {
   const [todoList, setTodoList] = useState<Todo[]>([]);
@@ -26,6 +29,7 @@ const useTodo = () => {
   const [draggingTodo, setDraggingTodo] = useState<Todo>();
   const [dragoverTodo, setDragoverTodo] = useState<Todo>();
   const [dragoverList, setDragoverList] = useState<TodoStatus>();
+  const { user } = useContext(AuthContext);
 
   const todoCollectionRef = useMemo(() => {
     return collection(db, "todos");
@@ -33,7 +37,8 @@ const useTodo = () => {
 
   const getTodoList = useCallback(async () => {
     try {
-      const response = await getDocs(todoCollectionRef);
+      const q = query(todoCollectionRef, where('email', '==', user?.email))
+      const response = await getDocs(q);
       const data = parseResponse(response);
       setTodoList(data);
     } catch (err) {}
@@ -48,9 +53,10 @@ const useTodo = () => {
       name: todoName,
       status: TodoStatus.NEW,
       priority: todoPriority,
+      email: user?.email || ''
     };
     const response = await addDoc(todoCollectionRef, newTodo);
-    setTodoList((prev) => [{ ...newTodo, id: response.id }, ...prev]);
+    setTodoList((prev) => [{ ...newTodo, id: response.id, email: user?.email || '' }, ...prev]);
   }, [todoCollectionRef, todoName, todoPriority]);
 
   const deleteTodo = useCallback(async (id: string) => {

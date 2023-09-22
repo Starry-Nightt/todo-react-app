@@ -23,11 +23,11 @@ export const AuthContext = createContext<AuthProviderContent>({
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(getKey(LocalStorageKey.AUTH));
 
-  const isLoggedIn = !!user?.emailVerified
+  const isLoggedIn = !!user
 
   useEffect(() => {
     auth.onAuthStateChanged(_user => {
-      if (_user?.emailVerified){
+      if (_user){
         setKey(LocalStorageKey.AUTH, _user)
         setUser(_user)
       }

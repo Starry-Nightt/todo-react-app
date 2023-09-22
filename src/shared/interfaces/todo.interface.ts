@@ -5,6 +5,7 @@ export interface Todo {
   name: string;
   status: TodoStatus;
   priority: TodoPriority;
+  email: string;
 }
 
 export interface TodoPayload {
