@@ -17,4 +17,5 @@ export enum TodoPriority {
 
 export enum LocalStorageKey {
   THEME = "theme",
+  AUTH = "auth",
 }

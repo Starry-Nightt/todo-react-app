@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import TodoApp from "./modules/todo/todo";
 import { ThemeContext } from "./shared/providers/theme-provider";
 import classnames from "classnames";
+import {Router} from "./routes";
 
 function App() {
   const { isDarkTheme } = useContext(ThemeContext);
@@ -12,7 +12,7 @@ function App() {
         "bg-slate-800 ": isDarkTheme,
       })}
     >
-      <TodoApp />
+      <Router/>
     </div>
   );
 }

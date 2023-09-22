@@ -35,3 +35,7 @@ export const getKey = (key: string) => {
 export const setKey = (key: string, val: any) => {
   if (val) localStorage.setItem(key, JSON.stringify(val));
 };
+
+export const removeKey = (key: string) => {
+  localStorage.removeItem(key);
+};

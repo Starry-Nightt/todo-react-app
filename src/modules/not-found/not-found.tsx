@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { TbError404 } from "react-icons/tb";
 
 function NotFoundPage() {
   return (
-    <div>NotFoundPage</div>
-  )
+    <div className="h-screen text-white text-3xl flex items-center justify-center">
+        <TbError404 size={50} className="mr-5"/> <span className="font-semibold font-mono tracking-wider ">Not Found</span>
+    </div>
+  );
 }
 
-export default NotFoundPage
+export default NotFoundPage;

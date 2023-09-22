@@ -53,9 +53,10 @@ function TodoList({
     <div className="w-full h-full" onDragOver={onDragOver}>
       <h2
         className={classNames(
-          "text-lg font-semibold text-neutral-600 text-center hidden md:block",
+          "text-lg font-semibold text-center hidden md:block",
           {
             "text-gray-300": isDarkTheme,
+            " text-neutral-600": !isDarkTheme,
           }
         )}
       >

@@ -48,7 +48,7 @@ function TodoInput({
           </option>
         </select>
       </div>
-      <div className="flex w-full bg-neutral-100 rounded-lg mb-4 max-w-2xl overflow-hidden">
+      <div className="flex w-full bg-neutral-100 rounded-lg mb-4 max-w-2xl overflow-hidden md:mb-6">
         <select
           className="select font-semibold text-lg hidden md:block"
           value={todoPriority}
