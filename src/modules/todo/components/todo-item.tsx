@@ -114,10 +114,10 @@ function TodoItem({
                 {getPriorityLabel(todo.priority)}
               </span>
               <div className="flex">
-                <p className="line-clamp my-1  text-lg">{todo.name}</p>
+                <p className="line-clamp my-1 pr-2 text-lg ">{todo.name}</p>
                 {status === TodoStatus.NEW ? (
                   <button
-                    className="btn btn-success btn-square btn-outline md:hidden"
+                    className="btn btn-success btn-square btn-outline md:hidden btn-md"
                     onClick={() =>
                       onUpdateStatus(todo.id, TodoStatus.IN_PROGRESS)
                     }
@@ -126,7 +126,7 @@ function TodoItem({
                   </button>
                 ) : status === TodoStatus.IN_PROGRESS ? (
                   <button
-                    className="btn btn-success btn-square btn-outline md:hidden"
+                    className="btn btn-success btn-square btn-outline md:hidden btn-md"
                     onClick={() =>
                       onUpdateStatus(todo.id, TodoStatus.COMPLETED)
                     }

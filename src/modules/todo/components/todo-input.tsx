@@ -19,6 +19,7 @@ function TodoInput({
   const inputRef = useRef<any>();
 
   const handleCreateTodo = () => {
+    if (!todoName.trim().length) return;
     setTodoName("");
     inputRef.current.focus();
     createTodo();
