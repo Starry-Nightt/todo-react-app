@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { validateEmail, validateMinLength } from "../../../shared/utils";
 
 interface RegisterProps {
   signUpWithEmail: any;
@@ -18,15 +19,17 @@ function Register({ signUpWithEmail, setForm }: RegisterProps) {
         setError('There are fields is not filling!')
         return;
     }
-    else {
-        setError('')
-    }
     if (pwdConfirmRef.current.value !== pwdRef.current.value){
         setError('Confirm password is incorrect!')
         return;
     }
-    else {
-        setError('')
+    if (!validateEmail(emailRef.current.value)){
+      setError('Invalid email')
+      return;
+    }
+    if (pwdRef.current.value.length < 6){
+      setError('Password must have at least 6 character')
+      return;
     }
 
     await signUpWithEmail(emailRef.current.value, pwdRef.current.value);
