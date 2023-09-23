@@ -13,6 +13,7 @@ interface TodoListProps {
   canUpdate: string;
   updatedTodoName: string;
   updatedTodoPriority: TodoPriority;
+  draggingTodo?: Todo
   setUpdatedTodoName: any;
   setUpdatedTodoPriority: any;
   onSave: any;
@@ -32,6 +33,7 @@ function TodoList({
   canUpdate,
   updatedTodoName,
   updatedTodoPriority,
+  draggingTodo,
   setUpdatedTodoName,
   setUpdatedTodoPriority,
   onSave,
@@ -73,6 +75,7 @@ function TodoList({
             canUpdate={canUpdate}
             updatedTodoName={updatedTodoName}
             updatedTodoPriority={updatedTodoPriority}
+            draggingTodo={draggingTodo}
             setUpdatedTodoName={setUpdatedTodoName}
             setUpdatedTodoPriority={setUpdatedTodoPriority}
             onSave={onSave}

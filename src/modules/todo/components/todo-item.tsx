@@ -14,6 +14,8 @@ interface TodoItemProps {
   canUpdate: string;
   updatedTodoName: string;
   updatedTodoPriority: TodoPriority;
+  draggingTodo?: Todo;
+
   setUpdatedTodoName: any;
   setUpdatedTodoPriority: any;
   onSave: any;
@@ -32,9 +34,10 @@ function TodoItem({
   todo,
   canUpdate,
   updatedTodoName,
-  setUpdatedTodoName,
   updatedTodoPriority,
+  draggingTodo,
   setUpdatedTodoPriority,
+  setUpdatedTodoName,
   onSave,
   onCancelUpdateTodo,
   onUpdateTodo,
@@ -111,7 +114,7 @@ function TodoItem({
                 {getPriorityLabel(todo.priority)}
               </span>
               <div className="flex">
-                <p className="line-clamp">{todo.name}</p>
+                <p className="line-clamp my-1  text-lg">{todo.name}</p>
                 {status === TodoStatus.NEW ? (
                   <button
                     className="btn btn-success btn-square btn-outline md:hidden"

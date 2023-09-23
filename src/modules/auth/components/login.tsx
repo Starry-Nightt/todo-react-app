@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { memo, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 interface LoginProps {
@@ -65,4 +65,4 @@ function Login({
   );
 }
 
-export default Login;
+export default memo(Login);

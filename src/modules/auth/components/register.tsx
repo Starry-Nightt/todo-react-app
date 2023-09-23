@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface RegisterProps {
@@ -92,4 +92,4 @@ function Register({ signUpWithEmail, setForm }: RegisterProps) {
   );
 }
 
-export default Register;
+export default memo(Register);

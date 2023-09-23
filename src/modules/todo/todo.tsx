@@ -30,6 +30,7 @@ function TodoApp() {
     setDragoverTodo,
     setDragoverList,
     handleDragEnd,
+    draggingTodo,
   } = useTodo();
 
   const [canUpdate, setCanUpdate] = useState<string>("");
@@ -174,6 +175,7 @@ function TodoApp() {
             setDragoverTodo={setDragoverTodo}
             setDragoverList={setDragoverList}
             handleDragEnd={handleDragEnd}
+            draggingTodo={draggingTodo}
           />
         </div>
         <div className="w-1/3 ">
@@ -194,6 +196,7 @@ function TodoApp() {
             setDragoverTodo={setDragoverTodo}
             setDragoverList={setDragoverList}
             handleDragEnd={handleDragEnd}
+            draggingTodo={draggingTodo}
           />
         </div>
         <div className="w-1/3 ">
@@ -214,6 +217,7 @@ function TodoApp() {
             setDragoverTodo={setDragoverTodo}
             setDragoverList={setDragoverList}
             handleDragEnd={handleDragEnd}
+            draggingTodo={draggingTodo}
           />
         </div>
       </div>

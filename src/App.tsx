@@ -8,8 +8,9 @@ function App() {
 
   return (
     <div
-      className={classnames("min-h-screen bg-primary", {
+      className={classnames("min-h-screen", {
         "bg-slate-800 ": isDarkTheme,
+        "bg-light-theme": !isDarkTheme
       })}
     >
       <Router/>

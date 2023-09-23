@@ -33,7 +33,7 @@ function TodoInput({
     <>
       <div className="w-full pb-3  md:hidden">
         <select
-          className="select font-semibold text-lg"
+          className="select select-sm font-semibold"
           value={todoPriority}
           onChange={(e) => setTodoPriority(Number(e.target.value))}
         >
@@ -65,7 +65,7 @@ function TodoInput({
           </option>
         </select>
         <input
-          className="flex-1 outline-none border-none px-2 tracking-wider"
+          className="flex-1 outline-none border-none px-2 tracking-wider text-sm md:text-lg"
           value={todoName}
           onChange={(e) => setTodoName(e.target.value)}
           onKeyUp={onKeyUpCreateTodo}
