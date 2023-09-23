@@ -80,8 +80,8 @@ function TodoApp() {
   return (
     <div className="flex flex-col justify-center items-center p-4 pt-10 w-full">
       <div className="flex items-center mb-10 justify-between w-full max-w-2xl md:mb-20">
-        <h2 className="text-3xl uppercase font-semibold text-white tracking-widest font-sans text-center md:text-5xl select-none">
-          Todo Task
+        <h2 className="text-3xl uppercase font-semibold text-white tracking-wide md:tracking-widest font-sans text-center md:text-5xl select-none">
+          Task Manager
         </h2>
         <ThemeToggle size={40} />
       </div>

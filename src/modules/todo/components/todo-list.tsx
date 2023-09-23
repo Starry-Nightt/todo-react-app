@@ -52,7 +52,7 @@ function TodoList({
     setDragoverList(status);
   };
   return (
-    <div className="w-full h-full" onDragOver={onDragOver}>
+    <div className="w-full h-full md:min-h-100" onDragOver={onDragOver}>
       <h2
         className={classNames(
           "text-lg font-semibold text-center hidden md:block",

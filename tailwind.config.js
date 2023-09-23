@@ -11,6 +11,10 @@ module.exports = {
       width: {
         "300%": "300%",
       },
+      minHeight: {
+        50: "200px",
+        100: "400px",
+      },
     },
   },
   plugins: [require("daisyui")],
