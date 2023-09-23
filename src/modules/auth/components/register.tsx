@@ -1,6 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { validateEmail, validateMinLength } from "../../../shared/utils";
+import { validateEmail } from "../../../shared/utils";
 
 interface RegisterProps {
   signUpWithEmail: any;
